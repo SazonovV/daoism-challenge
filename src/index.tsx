@@ -3,13 +3,20 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { DAppProvider } from '@usedapp/core';
+import { config } from './config';
+import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <DAppProvider config={config}>
+        <App />
+      </DAppProvider>
+    </ErrorBoundary>
   </React.StrictMode>
 );
 
