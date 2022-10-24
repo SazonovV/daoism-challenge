@@ -1,17 +1,18 @@
 import React, { useCallback, useState } from 'react';
-import { Button, InputAdornment, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 
 export interface MoveFormProps {
   buttonLabel: string;
-  buttonAction: (address: string, amount: number) => void;
+  buttonAction: (address: string, amount: string) => void;
+  hideAddress?: boolean;
 }
 
-function MoveForm({ buttonLabel, buttonAction }: MoveFormProps) {
-  const [amount, setAmount] = useState(0);
+function MoveForm({ buttonLabel, buttonAction, hideAddress }: MoveFormProps) {
+  const [amount, setAmount] = useState('');
   const [address, setAddress] = useState('');
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setAmount(Number(e.target.value));
+    setAmount(e.target.value);
   const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setAddress(e.target.value);
   const handleButtonClick = useCallback(
@@ -21,20 +22,14 @@ function MoveForm({ buttonLabel, buttonAction }: MoveFormProps) {
 
   return (
     <div className='flex justify-center align-middle flex-col text-center gap-2 '>
-      <TextField
-        label='Amount'
-        type='number'
-        value={amount}
-        InputProps={{
-          endAdornment: <InputAdornment position='end'>ETH</InputAdornment>,
-        }}
-        onChange={handleAmountChange}
-      />
-      <TextField
-        label='To (address)'
-        value={address}
-        onChange={handleAddressChange}
-      />
+      <TextField label='Amount' value={amount} onChange={handleAmountChange} />
+      {!hideAddress && (
+        <TextField
+          label='To (address)'
+          value={address}
+          onChange={handleAddressChange}
+        />
+      )}
 
       <Button onClick={handleButtonClick} variant='outlined'>
         {buttonLabel}

@@ -1,7 +1,12 @@
 export default [
   {
     inputs: [
-      { internalType: 'uint256', name: '_initialBalance', type: 'uint256' },
+      {
+        internalType: 'string',
+        name: 'name_',
+        type: 'string',
+      },
+      { internalType: 'string', name: 'symbol_', type: 'string' },
     ],
     stateMutability: 'nonpayable',
     type: 'constructor',
@@ -34,6 +39,31 @@ export default [
   {
     anonymous: false,
     inputs: [
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'userAddress',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'address payable',
+        name: 'relayerAddress',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'bytes',
+        name: 'functionSignature',
+        type: 'bytes',
+      },
+    ],
+    name: 'MetaTransactionExecuted',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
       { indexed: true, internalType: 'address', name: 'from', type: 'address' },
       {
         indexed: true,
@@ -50,6 +80,41 @@ export default [
     ],
     name: 'Transfer',
     type: 'event',
+  },
+  {
+    inputs: [],
+    name: 'CHILD_CHAIN_ID',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'CHILD_CHAIN_ID_BYTES',
+    outputs: [{ internalType: 'bytes', name: '', type: 'bytes' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'ERC712_VERSION',
+    outputs: [{ internalType: 'string', name: '', type: 'string' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'ROOT_CHAIN_ID',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'ROOT_CHAIN_ID_BYTES',
+    outputs: [{ internalType: 'bytes', name: '', type: 'bytes' }],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
     inputs: [
@@ -87,20 +152,6 @@ export default [
     type: 'function',
   },
   {
-    inputs: [
-      { internalType: 'address', name: 'receiver', type: 'address' },
-      {
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256',
-      },
-    ],
-    name: 'burn',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
     inputs: [],
     name: 'decimals',
     outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
@@ -109,13 +160,62 @@ export default [
   },
   {
     inputs: [
-      { internalType: 'address', name: 'receiver', type: 'address' },
+      { internalType: 'address', name: 'spender', type: 'address' },
       {
         internalType: 'uint256',
-        name: 'amount',
+        name: 'subtractedValue',
         type: 'uint256',
       },
     ],
+    name: 'decreaseAllowance',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: 'userAddress', type: 'address' },
+      {
+        internalType: 'bytes',
+        name: 'functionSignature',
+        type: 'bytes',
+      },
+      { internalType: 'bytes32', name: 'sigR', type: 'bytes32' },
+      {
+        internalType: 'bytes32',
+        name: 'sigS',
+        type: 'bytes32',
+      },
+      { internalType: 'uint8', name: 'sigV', type: 'uint8' },
+    ],
+    name: 'executeMetaTransaction',
+    outputs: [{ internalType: 'bytes', name: '', type: 'bytes' }],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: 'user', type: 'address' }],
+    name: 'getNonce',
+    outputs: [{ internalType: 'uint256', name: 'nonce', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: 'spender', type: 'address' },
+      {
+        internalType: 'uint256',
+        name: 'addedValue',
+        type: 'uint256',
+      },
+    ],
+    name: 'increaseAllowance',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: 'amount', type: 'uint256' }],
     name: 'mint',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -171,4 +271,5 @@ export default [
     stateMutability: 'nonpayable',
     type: 'function',
   },
+  { stateMutability: 'payable', type: 'receive' },
 ];

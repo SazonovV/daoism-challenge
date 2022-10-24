@@ -12,13 +12,13 @@ function Mint() {
   });
 
   const handleMint = useCallback(
-    (address: string, amount: number) => send({ receiver: address, amount }),
+    (_: string, amount: string) => send(amount),
     [send]
   );
 
   return (
     <div>
-      <MoveForm buttonLabel='Mint' buttonAction={handleMint} />
+      <MoveForm hideAddress buttonLabel='Mint' buttonAction={handleMint} />
       {status !== 'None' && status}
     </div>
   );

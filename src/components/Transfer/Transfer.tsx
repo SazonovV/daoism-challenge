@@ -9,7 +9,7 @@ function Transfer() {
   });
 
   const handleTransfer = useCallback(
-    (address: string, amount: number) => send({ recipient: address, amount }),
+    (address: string, amount: string) => send(address, amount),
     [send]
   );
 
